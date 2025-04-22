@@ -28,7 +28,6 @@ const Add = () => {
     };
   }, [image1, image2, image3, image4]);
 
-
   const [loading, setLoading] = useState(false);
 
   const onSubmitHandler = async (e) => {
