@@ -9,7 +9,6 @@ import productRouter from './routes/productRoute.js';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import newsletterRoutes from "./routes/newsletterRoutes.js";
-import nodemailer from 'nodemailer';
 
 dotenv.config();
 const app = express();
