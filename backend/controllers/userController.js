@@ -6,7 +6,7 @@ import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 
 const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "2h" });
 };
 
 const sendEmail = async (to, subject, html) => {
@@ -103,7 +103,7 @@ const adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-      const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+      const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "2h" });
       return res.status(200).json({ success: true, message: "Login successful", token });
     }
     return res.status(401).json({ success: false, message: "Invalid admin credentials" });
@@ -123,7 +123,7 @@ const forgotPassword = async (req, res) => {
 
     const token = crypto.randomBytes(32).toString('hex');
     user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+    user.resetPasswordExpires = Date.now() + 7200000; // 2 hour
     await user.save();
 
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${token}`;

@@ -12,11 +12,11 @@ const List = ({ token }) => {
       if (response.data.success) {
         setList(response.data.products);
       } else {
-        toast.error(response.data.error);
+        toast.error(response.data.error || "Failed to load list");
       }
     } catch (error) {
       console.error(error);
-      toast.error(error.message);
+      toast.error(error.message || "Failed to load list");
     }
   };
 
@@ -37,7 +37,7 @@ const List = ({ token }) => {
         toast.success(response.data.message);
         setList((prev) => prev.filter((item) => item._id !== id));
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.message || "Some unexpected error occured");
       }
     } catch (error) {
       console.error(error);

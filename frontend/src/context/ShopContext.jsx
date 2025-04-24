@@ -137,7 +137,7 @@ const ShopContextProvider = ({ children }) => {
       if (response.data.success) {
         setProducts(response.data.products);
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.message || "Some unexpected error occured");
       }
     } catch (error) {
       console.log(error);
@@ -153,7 +153,7 @@ const ShopContextProvider = ({ children }) => {
         setOtpSent(true);
         toast.success(response.data.message);
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.message || "OTP hasn't been sent");
       }
     } catch (error) {
       console.log(error);

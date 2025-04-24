@@ -80,7 +80,7 @@ const PlaceOrder = () => {
             setCartItems({});
             navigate("/orders");
           } else {
-            toast.error(response.data.message);
+            toast.error(response.data.message || "Some unexpected error occured");
           }
           break;
 
@@ -93,7 +93,7 @@ const PlaceOrder = () => {
             const { session_url } = responseStripe.data;
             window.location.href = session_url; 
           } else {
-            toast.error(responseStripe.data.message);
+            toast.error(responseStripe.data.message || "Some unexpected error occured");
           }
           break;
 

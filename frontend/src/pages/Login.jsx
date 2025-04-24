@@ -25,7 +25,7 @@ const Login = () => {
           localStorage.setItem('token', response.data.token);
           setOtpSent(false);
         } else {
-          toast.error(response.data.message);
+          toast.error(response.data.message || "Some unexpected error occured");
         }
       } else {
         const response = await axios.post(backendUrl + '/api/user/login', { email, password });
@@ -33,13 +33,30 @@ const Login = () => {
           setToken(response.data.token);
           localStorage.setItem('token', response.data.token);
         } else {
-          toast.error(response.data.message);
+          toast.error(response.data.message || "Some unexpected error occured");
         }
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.message);
+      console.log(error); // Debug: see the full error object in the console
+    
+      if (axios.isAxiosError(error)) {
+        const status = error.response?.status;
+    
+        if (status === 401) {
+          toast.error("Invalid email or password. Please try again.");
+        } else if (status === 403) {
+          toast.error("You do not have permission to access this resource.");
+        } else if (status === 500) {
+          toast.error("Server error. Please try again later.");
+        } else {
+          // fallback error message
+          toast.error(error.response?.data?.message || "Something went wrong. Please try again.");
+        }
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
+    
   };
 
   const handleSendOtp = async () => {
@@ -60,7 +77,7 @@ const Login = () => {
       if (response.data.success) {
         toast.success(response.data.message);
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.message || "Some unexpected error occured");
       }
     } catch (error) {
       console.log(error);

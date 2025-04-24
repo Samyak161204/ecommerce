@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink,useNavigate } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
@@ -12,6 +12,12 @@ const Navbar = () => {
     setCartItems({});
     localStorage.removeItem("token");
     navigate("/login");
+  };
+
+  const history = useNavigate();
+  const handleSearchClick = () => {
+    setShowSearch(true);  // This will show the search bar or modal
+    history("/collection");  // Navigate to the Collection page
   };
 
   return (
@@ -37,7 +43,7 @@ const Navbar = () => {
 
       {/* Right Icons */}
       <div className="flex items-center gap-6">
-        <img onClick={() => setShowSearch(true)} src={assets.search_icon} className="w-5 cursor-pointer" alt="Search" />
+        <img onClick={handleSearchClick} src={assets.search_icon} className="w-5 cursor-pointer" alt="Search" />
 
         {/* Profile Dropdown (Only for Logged-in Users) */}
         <div className="group relative">

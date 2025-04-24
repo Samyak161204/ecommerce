@@ -38,7 +38,7 @@ const ResetPassword = () => {
         toast.success(response.data.message);
         navigate('/login');
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.message || "Some unexpected error occured");
       }
     } catch (error) {
       console.log(error);

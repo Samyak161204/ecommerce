@@ -26,7 +26,7 @@ const Orders = () => {
                 );
                 setOrders(sortedOrders);
             } else {
-                toast.error(response.data.message);
+                toast.error(response.data.message || "Some unexpected error occured");
             }
         } catch (error) {
             toast.error("Error fetching orders:", error);

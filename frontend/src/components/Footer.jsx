@@ -45,7 +45,7 @@ const Footer = () => {
       <div>
         <hr />
         <p className='py-5 text-sm text-center'>
-          Copyright 2025@Parvaz.com - ALL RIGHTS RESERVED.
+          Copyright 2025@parvaz.vercel.app - ALL RIGHTS RESERVED.
         </p>
       </div>
     </div>

@@ -27,21 +27,21 @@ const Login = ({ setToken }) => {
         toast.success('Login Successful!');
         navigate('/add');
       } else {
-        toast.error(response.data.message || '❌ Invalid email or password');
+        toast.error(response.data.message || 'Invalid email or password');
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.code === 'ECONNABORTED') {
-          toast.error('⏳ Request timed out. Please try again.');
+          toast.error('Request timed out. Please try again.');
         } else if (error.response?.status === 401) {
           toast.error('Unauthorized! Invalid email or password.');
         } else if (error.response?.status === 500) {
           toast.error('Server error. Try again later.');
         } else {
-          toast.error('🌐 Network error. Check your connection.');
+          toast.error('Network error. Check your connection.');
         }
       } else {
-        toast.error('❗ An unexpected error occurred.');
+        toast.error('An unexpected error occurred.');
       }
     } finally {
       setLoading(false);
