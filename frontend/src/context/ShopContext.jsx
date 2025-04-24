@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 export const ShopContext = createContext();
@@ -14,16 +14,18 @@ const ShopContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [otpSent, setOtpSent] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Redirect to login if no token
+  // Redirect to login if no token, except for login and reset-password routes
   useEffect(() => {
-    if (!token) {
+    if (!token && !['/login', '/reset-password'].some(path => location.pathname.startsWith(path))) {
       navigate("/login");
-    } else {
+    } else if (token) {
       fetchCartData(); // Fetch cart data on reload
     }
-  }, [token, navigate]);
+  }, [token, navigate, location.pathname]);
 
   // Logout Function
   const logout = () => {
@@ -143,6 +145,22 @@ const ShopContextProvider = ({ children }) => {
     }
   };
 
+  // Send OTP
+  const sendOtp = async (email) => {
+    try {
+      const response = await axios.post(`${backendUrl}/api/user/send-otp`, { email });
+      if (response.data.success) {
+        setOtpSent(true);
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error sending OTP");
+    }
+  };
+
   useEffect(() => {
     getProductsData();
   }, []);
@@ -166,6 +184,9 @@ const ShopContextProvider = ({ children }) => {
     setToken,
     token,
     logout,
+    sendOtp,
+    otpSent,
+    setOtpSent
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

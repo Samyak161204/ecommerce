@@ -9,6 +9,7 @@ import productRouter from './routes/productRoute.js';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 import newsletterRoutes from "./routes/newsletterRoutes.js";
+import nodemailer from 'nodemailer';
 
 dotenv.config();
 const app = express();
@@ -29,9 +30,8 @@ app.use("/api/newsletter", newsletterRoutes);
 
 app.get('/',(req,res)=>{
     res.send("API WORKING ")
-})
+});
 
 // Routes
 
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
-  
